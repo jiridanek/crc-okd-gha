@@ -7,7 +7,7 @@ crc config set preset okd
 crc config set network-mode user
 crc config set host-network-access true
 crc setup
-crc start --disable-update-check --pull-secret-file
+crc start
 eval "$(crc oc-env)"
 oc config use-context crc-admin
 
