@@ -7,12 +7,11 @@ crc config set preset okd
 crc config set network-mode user
 crc config set host-network-access true
 crc setup
-crc start
+crc start --disable-update-check --pull-secret-file
 eval "$(crc oc-env)"
 oc config use-context crc-admin
 
 oc wait --for=condition=Ready nodes --all
 oc wait --for=condition=Available deployments --all --all-namespaces
-oc wait --for=condition=Ready pods --all --all-namespaces
 
 echo "DONE"
