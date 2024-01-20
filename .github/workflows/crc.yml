@@ -44,12 +44,12 @@ jobs:
         id: restore-machine
         uses: actions/cache/restore@v4
         with:
-#          path: ~/.crc/cache/*.crcbundle
-#          path: ~/.crc/machines/crc/crc.qcow2
-#          key: ${{ runner.os }}-crbundles
+          path: |
+            ~/.crc/crc.json
+            ~/.crc/machines/crc/crc.qcow2
           key: ${{ runner.os }}-machine
 
-      # Runs a single command using the runners shell
+      # Runs a single command using the runner's shell
       - if: steps.restore-machine.outputs.cache-hit != 'true'
         run: sudo -s -u $USER bash ./crc.sh
 
