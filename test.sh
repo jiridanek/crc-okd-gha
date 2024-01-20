@@ -1,6 +1,7 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
+crc daemon || true
 crc start --disable-update-check
 eval "$(crc oc-env)"
 oc config use-context crc-admin
