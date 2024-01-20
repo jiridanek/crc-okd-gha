@@ -63,4 +63,4 @@ jobs:
             ~/.crc/machines/crc/crc.qcow2
           key: ${{ runner.os }}-machine
 
-      - run: sudo -s -u $USER bash ./tests.sh
+      - run: sudo -s -u $USER bash ./test.sh
