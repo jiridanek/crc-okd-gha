@@ -56,7 +56,7 @@ jobs:
       # todo, recreate machine every week or so?
       - name: Cache the crc machine
         id: cache-machine
-        uses: actions/cache/savee@v4
+        uses: actions/cache/save@v4
         with:
           path: |
             ~/.crc/crc.json
