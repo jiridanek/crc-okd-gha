@@ -32,5 +32,11 @@ jobs:
           sudo apt install qemu-kvm libvirt-daemon libvirt-daemon-system network-manager
           sudo usermod -a -G kvm,libvirt $USER
 
+      - name: Retrieve the pull secret and decode it to a file
+        env:
+          PULL_SECRET_BASE64: ${{ secrets.PULL_SECRET_BASE64 }}
+        run: |
+          echo ${PULL_SECRET_BASE64} | base64 --decode > pull-secret.txt
+
       # Runs a single command using the runners shell
       - run: sudo -s -u $USER bash ./crc.sh
