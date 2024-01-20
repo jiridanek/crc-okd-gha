@@ -25,11 +25,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - run: sudo bash ./crc.sh
-
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          sudo apt-get update
+          sudo apt install qemu-kvm libvirt-daemon libvirt-daemon-system network-manager
+          sudo usermod -a -G kvm,libvirt $USER
+
+      # Runs a single command using the runners shell
+      - run: bash ./crc.sh
