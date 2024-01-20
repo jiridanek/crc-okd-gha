@@ -33,4 +33,4 @@ jobs:
           sudo usermod -a -G kvm,libvirt $USER
 
       # Runs a single command using the runners shell
-      - run: bash ./crc.sh
+      - run: sudo -s -u $USER bash ./crc.sh
