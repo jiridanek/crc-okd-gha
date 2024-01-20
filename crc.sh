@@ -1,7 +1,6 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-curl -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin --strip-components=1 -xJvf -
 crc config set consent-telemetry yes
 crc config set preset openshift
 crc config set network-mode user
@@ -13,5 +12,7 @@ oc config use-context crc-admin
 
 oc wait --for=condition=Ready nodes --all
 oc wait --for=condition=Available deployments --all --all-namespaces
+
+crc stop
 
 echo "DONE"

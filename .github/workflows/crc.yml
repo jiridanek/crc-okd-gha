@@ -38,5 +38,29 @@ jobs:
           sudo apt install qemu-kvm libvirt-daemon libvirt-daemon-system network-manager
           sudo usermod -a -G kvm,libvirt $USER
 
+      - run: curl -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin --strip-components=1 -xJvf -
+
+      - name: Restore the crc machine
+        id: restore-machine
+        uses: actions/cache/restore@v4
+        with:
+#          path: ~/.crc/cache/*.crcbundle
+#          path: ~/.crc/machines/crc/crc.qcow2
+#          key: ${{ runner.os }}-crbundles
+          key: ${{ runner.os }}-machine
+
       # Runs a single command using the runners shell
-      - run: sudo -s -u $USER bash ./crc.sh
+      - if: steps.restore-machine.outputs.cache-hit != 'true'
+        run: sudo -s -u $USER bash ./crc.sh
+
+      # todo, recreate machine every week or so?
+      - name: Cache the crc machine
+        id: cache-machine
+        uses: actions/cache/savee@v4
+        with:
+          path: |
+            ~/.crc/crc.json
+            ~/.crc/machines/crc/crc.qcow2
+          key: ${{ runner.os }}-machine
+
+      - run: sudo -s -u $USER bash ./tests.sh
