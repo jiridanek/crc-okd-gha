@@ -4,7 +4,7 @@ set -Eeuo pipefail
 sudo apt update
 sudo apt install qemu-kvm libvirt-daemon libvirt-daemon-system network-manager
 
-curl -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin -xzvf -
+curl -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin -xzvJf -
 crc config set consent-telemetry yes
 crc config set preset okd
 crc setup
