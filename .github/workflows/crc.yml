@@ -31,20 +31,6 @@ jobs:
         run: |
           echo "${PULL_SECRET_BASE64}" | base64 --decode > pull-secret.txt
 
-      - name: Free up disk space, we will need it later
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf /opt/hostedtoolcache/CodeQL
-          # sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-
-          sudo docker image prune --all --force
-
-          sudo swapoff -a
-          sudo rm -f /mnt/swapfile
-
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
@@ -60,8 +46,23 @@ jobs:
         with:
           path: |
             ~/.crc/crc.json
-            ~/.crc/machines/crc/crc.qcow2
+            ~/.crc/machines
           key: ${{ runner.os }}-machine
+
+      - name: Free up disk space, we will need it later
+        if: steps.restore-machine.outputs.cache-hit != 'true'
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          # sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+          sudo docker image prune --all --force
+
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
 
       # Runs a single command using the runner's shell
       - if: steps.restore-machine.outputs.cache-hit != 'true'
@@ -74,7 +75,7 @@ jobs:
         with:
           path: |
             ~/.crc/crc.json
-            ~/.crc/machines/crc/crc.qcow2
+            ~/.crc/machines
           key: ${{ runner.os }}-machine
 
       - run: sudo -s -u $USER bash ./test.sh
