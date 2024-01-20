@@ -70,7 +70,7 @@ jobs:
 
       # todo, recreate machine every week or so?
       - name: Cache the crc machine
-        id: cache-machine
+        if: steps.restore-machine.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: |
