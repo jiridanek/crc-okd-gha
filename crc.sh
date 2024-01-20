@@ -5,7 +5,7 @@ crc config set consent-telemetry yes
 crc config set preset okd
 crc config set network-mode user
 crc config set host-network-access true
-crc delete
+crc delete || true
 crc setup
 crc start --disable-update-check
 eval "$(crc oc-env)"
