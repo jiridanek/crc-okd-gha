@@ -28,8 +28,8 @@ chmod o+x ~/.crc/machines/crc
 sudo chown libvirt-qemu:kvm ~/.crc/machines/crc/crc.qcow2
 
 chmod o+x ~/.crc/cache
-chmod o+x ~/.crc/cache/crc_microshift_libvirt_4.14.7_amd64
-sudo chown libvirt-qemu:kvm ~/.crc/cache/crc_microshift_libvirt_4.14.7_amd64/crc.qcow2
+#chmod o+x ~/.crc/cache/*
+sudo chown libvirt-qemu:kvm ~/.crc/cache/*/crc.qcow2
 
 sudo virsh list
 sudo virsh net-list
