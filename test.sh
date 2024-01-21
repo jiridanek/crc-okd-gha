@@ -2,7 +2,10 @@
 set -Eeuxo pipefail
 
 #crc setup
-sudo aa-complain /etc/apparmor.d/*
+# https://github.com/crc-org/crc/blob/8456f7444ecdebf785199e7f90879e8f26f54e22/pkg/crc/preflight/preflight_ubuntu_linux.go#L32
+sudo sed -i "2i$HOME/.crc/cache/*/crc.qcow2 rk," /etc/apparmor.d/libvirt/TEMPLATE.qemu
+sudo chmod 0644 /etc/apparmor.d/libvirt/TEMPLATE.qemu
+sudo systemctl reload apparmor
 
 #sudo sysctl -w net.ipv4.ip_forward=1
 sudo virsh net-define ~/crc_net.xml
