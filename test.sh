@@ -43,9 +43,11 @@ export KUBECONFIG=~/.crc/machines/crc/kubeconfig
 
 until nc -zv 192.168.130.11 6443; do
   sudo virsh domifaddr crc
+  sudo virsh dominfo crc
   echo "trying to connect to kube API"
   sleep 7
   oc wait --for=condition=Ready nodes --all || true
+  ip a l
   ping -c4 192.168.130.11 || true
   set +x
 done
