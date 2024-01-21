@@ -3,7 +3,7 @@ set -Eeuxo pipefail
 
 crc setup
 
-sudo virsh net-define crc_net.xml
+#sudo virsh net-define crc_net.xml
 sudo virsh define crc.xml
 sudo virsh start crc
 
