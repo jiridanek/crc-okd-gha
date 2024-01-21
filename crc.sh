@@ -13,7 +13,7 @@ eval "$(crc oc-env)"
 #oc config use-context crc-admin
 
 oc wait --for=condition=Ready nodes --all
-oc wait --for=condition=Available deployments --all --all-namespaces
+oc wait --for=condition=Available deployments --all --all-namespaces --timeout=120s
 
 sudo virsh list
 sudo virsh shutdown crc
