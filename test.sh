@@ -2,6 +2,7 @@
 set -Eeuxo pipefail
 
 #crc setup
+sudo systemctl stop apparmor
 
 #sudo sysctl -w net.ipv4.ip_forward=1
 sudo virsh net-define ~/crc_net.xml
