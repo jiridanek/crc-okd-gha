@@ -2,7 +2,6 @@
 set -Eeuxo pipefail
 
 #crc setup
-sudo systemctl stop apparmor
 sudo aa-teardown
 
 #sudo sysctl -w net.ipv4.ip_forward=1
