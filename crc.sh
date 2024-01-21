@@ -10,7 +10,7 @@ crc config set pull-secret-file pull-secret.txt
 crc setup
 crc start --disable-update-check
 eval "$(crc oc-env)"
-oc config use-context crc-admin
+#oc config use-context crc-admin
 
 oc wait --for=condition=Ready nodes --all
 oc wait --for=condition=Available deployments --all --all-namespaces
