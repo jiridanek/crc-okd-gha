@@ -1,7 +1,7 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-CRC_PRESET=minishift
+CRC_PRESET=microshift
 
 crc config set consent-telemetry yes
 crc config set preset $CRC_PRESET
