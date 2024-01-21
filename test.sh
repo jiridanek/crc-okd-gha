@@ -52,7 +52,7 @@ until nc -zv 192.168.130.11 22; do
 done
 set -x
 
-ssh -i ~/.crc/machines/crc/id_ecdsa core@192.168.130.11 sudo systemctl start microshift
+ssh -i ~/.crc/machines/crc/id_ecdsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@192.168.130.11 sudo systemctl start microshift
 
 until nc -zv 192.168.130.11 6443; do
   sudo virsh domifaddr crc
