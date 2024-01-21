@@ -12,10 +12,13 @@ sudo ip l
 sudo virsh define ~/crc.xml
 chmod o+x ~/
 chmod o+x ~/.crc
-chmod o+x ~/.crc/cache
 chmod o+x ~/.crc/machines/
 chmod o+x ~/.crc/machines/crc
 sudo chown libvirt-qemu:libvirt ~/.crc/machines/crc/crc.qcow2
+
+chmod o+x ~/.crc/cache
+chmod o+x ~/.crc/cache/crc_microshift_libvirt_4.14.7_amd64
+sudo chown libvirt-qemu:libvirt ~/.crc/cache/crc_microshift_libvirt_4.14.7_amd64/crc.qcow2
 
 sudo virsh list
 sudo virsh net-list
