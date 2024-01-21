@@ -3,7 +3,7 @@ set -Eeuxo pipefail
 
 crc setup
 
-#sudo virsh net-define ~/crc_net.xml
+sudo virsh net-define ~/crc_net.xml
 sudo virsh define ~/crc.xml
 chmod o+x ~/
 chmod o+x ~/.crc
@@ -12,8 +12,8 @@ chmod o+x ~/.crc/machines/
 chmod o+x ~/.crc/machines/crc
 sudo chown libvirt-qemu:libvirt ~/.crc/machines/crc/crc.qcow2
 
-crc start
-#sudo virsh start crc
+#crc start
+sudo virsh start crc
 
 sudo echo 127.0.0.1 api.crc.testing canary-openshift-ingress-canary.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing downloads-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing | sudo tee -a /etc/hosts
 
