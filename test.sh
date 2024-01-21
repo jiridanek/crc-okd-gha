@@ -7,7 +7,9 @@ sudo cat /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo sed -i "/^profile LIBVIRT_TEMPLATE flags=(attach_disconnected) {$/a$HOME/.crc/cache/*/crc.qcow2 rk," /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo cat /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo chmod 0644 /etc/apparmor.d/libvirt/TEMPLATE.qemu
-sudo systemctl reload apparmor
+#sudo systemctl reload apparmor
+
+sudo ufw disable
 
 sudo sysctl -w net.ipv4.ip_forward=1
 sudo virsh net-define ~/crc_net.xml
