@@ -4,7 +4,7 @@ set -Eeuxo pipefail
 #crc setup
 # https://github.com/crc-org/crc/blob/8456f7444ecdebf785199e7f90879e8f26f54e22/pkg/crc/preflight/preflight_ubuntu_linux.go#L32
 sudo cat /etc/apparmor.d/libvirt/TEMPLATE.qemu
-sudo sed -i "2i\\\\  $HOME/.crc/cache/*/crc.qcow2 rk," /etc/apparmor.d/libvirt/TEMPLATE.qemu
+sudo sed -i "/^profile LIBVIRT_TEMPLATE flags=(attach_disconnected) {$/a$HOME/.crc/cache/*/crc.qcow2 rk," /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo cat /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo chmod 0644 /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo systemctl reload apparmor
