@@ -1,10 +1,11 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-crc setup
+#crc setup
 
 #sudo sysctl -w net.ipv4.ip_forward=1
-#sudo virsh net-define ~/crc_net.xml
+sudo virsh net-define ~/crc_net.xml
+sudo virsh net-start crc
 sudo ip l
 #sudo ip link set crc up
 sudo virsh define ~/crc.xml
@@ -28,6 +29,7 @@ eval "$(crc oc-env)"
 export KUBECONFIG=~/.crc/machines/crc/kubeconfig
 
 until nc -z 192.168.130.11 6443; do
+  sudo virsh domifaddr crc
   echo "trying to connect to kube API"
   sleep 7
   set +x
