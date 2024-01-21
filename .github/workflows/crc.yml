@@ -1,14 +1,14 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: VM
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,18 +25,48 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - name: Retrieve the pull secret and decode it to a file
+        env:
+          PULL_SECRET_BASE64: ${{ secrets.PULL_SECRET_BASE64 }}
+        run: |
+          echo "${PULL_SECRET_BASE64}" | base64 --decode > pull-secret.txt
+
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
           sudo apt-get update
           sudo apt install qemu-kvm libvirt-daemon libvirt-daemon-system network-manager
+          sudo systemctl stop systemd-networkd.service
+          sudo systemctl start NetworkManager.service
           sudo usermod -a -G kvm,libvirt $USER
 
-      - name: Retrieve the pull secret and decode it to a file
-        env:
-          PULL_SECRET_BASE64: ${{ secrets.PULL_SECRET_BASE64 }}
-        run: |
-          echo ${PULL_SECRET_BASE64} | base64 --decode > pull-secret.txt
+      - run: curl --retry 5 --retry-connrefused -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin --strip-components=1 -xJvf -
 
-      # Runs a single command using the runners shell
+      - name: Free up disk space, we will need it later
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          # sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+          sudo docker image prune --all --force
+
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
+
       - run: sudo -s -u $USER bash ./crc.sh
+
+      # todo, recreate machine every week or so?
+      - name: Cache the crc machine
+        if: steps.restore-machine.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.crc/crc.json
+            ~/.crc/cache
+            ~/.crc/machines
+            ~/crc.xml
+            ~/crc_net.xml
+          key: ${{ runner.os }}-crc

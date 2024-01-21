@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+#  workflow_run:
+#    workflows:
+#      - VM
+#    types:
+#      - completed
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Retrieve the pull secret and decode it to a file
+        env:
+          PULL_SECRET_BASE64: ${{ secrets.PULL_SECRET_BASE64 }}
+        run: |
+          echo "${PULL_SECRET_BASE64}" | base64 --decode > pull-secret.txt
+
+      - name: Run a multi-line script
+        run: |
+          sudo apt-get update
+          sudo apt install qemu-kvm libvirt-daemon libvirt-daemon-system network-manager
+          cat /etc/passwd
+          cat /etc/group
+          sudo usermod -a -G kvm,libvirt $USER
+
+      - run: curl --retry 5 --retry-connrefused -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin --strip-components=1 -xJvf -
+
+      - name: Restore the crc machine
+        id: restore-machine
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.crc/crc.json
+            ~/.crc/cache
+            ~/.crc/machines
+            ~/crc.xml
+            ~/crc_net.xml
+          key: ${{ runner.os }}-crc
+
+      - run: sudo -s -u $USER bash ./test.sh
