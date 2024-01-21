@@ -9,7 +9,7 @@ sudo cat /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo chmod 0644 /etc/apparmor.d/libvirt/TEMPLATE.qemu
 sudo systemctl reload apparmor
 
-#sudo sysctl -w net.ipv4.ip_forward=1
+sudo sysctl -w net.ipv4.ip_forward=1
 sudo virsh net-define ~/crc_net.xml
 sudo virsh net-start crc
 sudo ip l
