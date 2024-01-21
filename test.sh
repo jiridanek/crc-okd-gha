@@ -12,6 +12,9 @@ chmod o+x ~/.crc/machines/
 chmod o+x ~/.crc/machines/crc
 sudo chown libvirt-qemu:libvirt ~/.crc/machines/crc/crc.qcow2
 
+sudo virsh list
+sudo virsh net-list
+
 #crc start
 sudo virsh start crc
 
