@@ -2,7 +2,7 @@
 set -Eeuxo pipefail
 
 #crc setup
-sudo aa-teardown
+sudo aa-complain /etc/apparmor.d/*
 
 #sudo sysctl -w net.ipv4.ip_forward=1
 sudo virsh net-define ~/crc_net.xml
