@@ -20,7 +20,7 @@ sudo echo 192.168.130.11 api.crc.testing canary-openshift-ingress-canary.apps-cr
 eval "$(crc oc-env)"
 export KUBECONFIG=~/.crc/machines/crc/kubeconfig
 
-oc wait --for=condition=Ready nodes --all
+oc wait --for=condition=Ready nodes --all --timeout=300s
 oc wait --for=condition=Available deployments --all --all-namespaces --timeout=120s
 
 echo "DONE"
