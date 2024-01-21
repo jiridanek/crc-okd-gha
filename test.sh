@@ -5,6 +5,7 @@ crc setup
 
 #sudo virsh net-define ~/crc_net.xml
 sudo virsh define ~/crc.xml
+sudo chown qemu ~/.crc/machines/crc/crc.qcow2
 sudo virsh start crc
 
 eval "$(crc oc-env)"
