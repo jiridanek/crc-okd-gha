@@ -6,7 +6,7 @@ CRC_PRESET=microshift
 crc config set consent-telemetry yes
 crc config set preset $CRC_PRESET
 crc config set network-mode user
-crc config set pull-secret ~/pull-secret.txt
+crc config set pull-secret-file ~/pull-secret.txt
 crc setup
 crc start --disable-update-check
 eval "$(crc oc-env)"
