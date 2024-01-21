@@ -1,17 +1,33 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-curl -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin --strip-components=1 -xJvf -
+CRC_PRESET=okd
+
 crc config set consent-telemetry yes
-crc config set preset openshift
-crc config set network-mode user
-crc config set host-network-access true
+crc config set preset $CRC_PRESET
+crc config set skip-check-systemd-networkd-running true
+crc config set pull-secret-file pull-secret.txt
 crc setup
-crc start --disable-update-check --pull-secret-file pull-secret.txt
+crc start --disable-update-check
 eval "$(crc oc-env)"
-oc config use-context crc-admin
 
 oc wait --for=condition=Ready nodes --all
-oc wait --for=condition=Available deployments --all --all-namespaces
+oc wait --for=condition=Available deployments --all --all-namespaces --timeout=120s
+
+sudo virsh list
+
+sudo virsh shutdown crc
+until sudo virsh domstate crc | grep shut; do
+    echo "crc vm is still alive"
+    sleep 11
+    set +x
+done
+set -x
+
+sudo virsh dumpxml crc > ~/crc.xml
+sudo virsh net-dumpxml crc > ~/crc_net.xml
+
+# clean what we don't need
+rm -rf ~/.crc/cache/*.crcbundle
 
 echo "DONE"
