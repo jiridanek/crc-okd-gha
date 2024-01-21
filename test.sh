@@ -3,9 +3,10 @@ set -Eeuxo pipefail
 
 crc setup
 
-sudo virsh net-define ~/crc_net.xml
+#sudo sysctl -w net.ipv4.ip_forward=1
+#sudo virsh net-define ~/crc_net.xml
 sudo ip l
-sudo ip link set crc up
+#sudo ip link set crc up
 sudo virsh define ~/crc.xml
 chmod o+x ~/
 chmod o+x ~/.crc
