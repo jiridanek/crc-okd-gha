@@ -44,6 +44,16 @@ sudo echo 192.168.130.11 api.crc.testing canary-openshift-ingress-canary.apps-cr
 eval "$(crc oc-env)"
 export KUBECONFIG=~/.crc/machines/crc/kubeconfig
 
+until nc -zv 192.168.130.11 22; do
+  sudo virsh domifaddr crc
+  echo "trying to connect to ssh"
+  sleep 3
+  set +x
+done
+set -x
+
+ssh -i ~/.crc/machines/crc/id_ecdsa core@192.168.130.11 sudo systemctl start microshift
+
 until nc -zv 192.168.130.11 6443; do
   sudo virsh domifaddr crc
   sudo virsh dominfo crc
