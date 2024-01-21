@@ -33,9 +33,9 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          cat /etc/passwd
           sudo apt-get update
           sudo apt install qemu-kvm libvirt-daemon libvirt-daemon-system network-manager
+          cat /etc/passwd
           sudo usermod -a -G kvm,libvirt $USER
 
       - run: curl --retry 5 --retry-connrefused -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin --strip-components=1 -xJvf -
