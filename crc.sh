@@ -15,11 +15,15 @@ oc wait --for=condition=Ready nodes --all
 oc wait --for=condition=Available deployments --all --all-namespaces --timeout=120s
 
 sudo virsh list
+
 sudo virsh shutdown crc
 until sudo virsh domstate crc | grep shut; do
     echo "crc vm is still alive"
-    sleep 7
+    sleep 11
+    set +x
 done
+set -x
+
 sudo virsh dumpxml crc > ~/crc.xml
 sudo virsh net-dumpxml crc > ~/crc_net.xml
 

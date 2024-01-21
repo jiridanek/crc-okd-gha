@@ -20,6 +20,13 @@ sudo echo 192.168.130.11 api.crc.testing canary-openshift-ingress-canary.apps-cr
 eval "$(crc oc-env)"
 export KUBECONFIG=~/.crc/machines/crc/kubeconfig
 
+until nc -z 192.168.130.11 6443; do
+  echo "trying to connect to kube API"
+  sleep 7
+  set +x
+done
+set -x
+
 oc wait --for=condition=Ready nodes --all --timeout=300s
 oc wait --for=condition=Available deployments --all --all-namespaces --timeout=120s
 
