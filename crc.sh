@@ -19,10 +19,10 @@ sudo virsh list
 sudo virsh shutdown crc
 until sudo virsh domstate crc | grep shut; do
     echo "crc vm is still alive"
-    sleep 1
+    sleep 7
 done
 sudo virsh dumpxml crc > ~/crc.xml
-sudo virsh net-dumpxml crc > ~/crc_net.xml
+#sudo virsh net-dumpxml crc > ~/crc_net.xml
 
 # clean what we don't need
 rm -rf ~/.crc/cache/*.crcbundle
