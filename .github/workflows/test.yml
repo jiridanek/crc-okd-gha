@@ -9,10 +9,10 @@ on:
 #      - VM
 #    types:
 #      - completed
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -51,6 +51,6 @@ jobs:
             ~/.crc/machines
             ~/crc.xml
             ~/crc_net.xml
-          key: ${{ runner.os }}-crc
+          key: ${{ runner.os }}-okd
 
       - run: sudo -s -u $USER bash ./test.sh
