@@ -4,6 +4,8 @@ set -Eeuxo pipefail
 crc setup
 
 sudo virsh net-define ~/crc_net.xml
+sudo ip l
+sudo virsh net-start crc
 sudo virsh define ~/crc.xml
 chmod o+x ~/
 chmod o+x ~/.crc
