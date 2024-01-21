@@ -3,6 +3,7 @@ set -Eeuxo pipefail
 
 #crc setup
 sudo systemctl stop apparmor
+sudo aa-teardown
 
 #sudo sysctl -w net.ipv4.ip_forward=1
 sudo virsh net-define ~/crc_net.xml
@@ -12,6 +13,7 @@ sudo ip l
 sudo virsh define ~/crc.xml
 
 sudo setfacl -m u:libvirt-qemu:rx ~/
+
 
 chmod o+x ~/
 chmod o+x ~/.crc
