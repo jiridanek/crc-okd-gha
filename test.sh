@@ -15,7 +15,7 @@ sudo chown libvirt-qemu:libvirt ~/.crc/machines/crc/crc.qcow2
 #crc start
 sudo virsh start crc
 
-sudo echo 127.0.0.1 api.crc.testing canary-openshift-ingress-canary.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing downloads-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing | sudo tee -a /etc/hosts
+sudo echo 192.168.130.11 api.crc.testing canary-openshift-ingress-canary.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing downloads-openshift-console.apps-crc.testing oauth-openshift.apps-crc.testing | sudo tee -a /etc/hosts
 
 eval "$(crc oc-env)"
 export KUBECONFIG=~/.crc/machines/crc/kubeconfig
