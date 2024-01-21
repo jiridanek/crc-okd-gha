@@ -5,6 +5,7 @@ CRC_PRESET=microshift
 
 crc config set consent-telemetry yes
 crc config set preset $CRC_PRESET
+crc config set skip-check-systemd-networkd-running true
 crc config set pull-secret-file pull-secret.txt
 crc setup
 crc start --disable-update-check
