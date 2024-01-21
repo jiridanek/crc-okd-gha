@@ -1,12 +1,14 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-crc config set skip-check-bundle-extracted true
 crc setup
 
-crc start --disable-update-check
+sudo virsh net-define crc_net.xml
+sudo virsh define crc.xml
+sudo virsh start crc
+
 eval "$(crc oc-env)"
-oc config use-context crc-admin
+export KUBECONFIG=~/.crc/machines/crc/kubeconfig
 
 oc wait --for=condition=Ready nodes --all
 oc wait --for=condition=Available deployments --all --all-namespaces
