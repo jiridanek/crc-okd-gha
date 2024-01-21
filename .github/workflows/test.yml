@@ -41,6 +41,20 @@ jobs:
 
       - run: curl --retry 5 --retry-connrefused -L https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.31.0/crc-linux-amd64.tar.xz | tar -C /usr/local/bin --strip-components=1 -xJvf -
 
+      - name: Free up disk space, we will need it later
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          # sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          # sudo rm -rf "/usr/local/share/boost"
+          # sudo rm -rf /opt/hostedtoolcache/CodeQL
+          # sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+          sudo docker image prune --all --force
+
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
+
       - name: Restore the crc machine
         id: restore-machine
         uses: actions/cache/restore@v4
