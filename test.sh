@@ -10,11 +10,14 @@ sudo virsh net-start crc
 sudo ip l
 #sudo ip link set crc up
 sudo virsh define ~/crc.xml
+
+sudo setfacl -m u:libvirt-qemu:rx ~/
+
 chmod o+x ~/
 chmod o+x ~/.crc
 chmod o+x ~/.crc/machines/
 chmod o+x ~/.crc/machines/crc
-sudo chown libvirt-qemu:libvirt ~/.crc/machines/crc/crc.qcow2
+sudo chown libvirt-qemu:kvm ~/.crc/machines/crc/crc.qcow2
 
 chmod o+x ~/.crc/cache
 chmod o+x ~/.crc/cache/crc_microshift_libvirt_4.14.7_amd64
