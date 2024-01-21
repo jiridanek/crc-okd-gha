@@ -14,6 +14,7 @@ sudo chown libvirt-qemu:libvirt ~/.crc/machines/crc/crc.qcow2
 
 sudo virsh list
 sudo virsh net-list
+sudo ip route ls
 
 #crc start
 sudo virsh start crc
